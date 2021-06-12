@@ -105,7 +105,9 @@ jobs:
           name: Scan front-end
           command: |
             cd frontend
-            npm audit --audit-level=critical
+            npm install
+            npm install oauth-sign
+            npm audit fix --audit-level=critical --force
 
   scan-backend:
     docker:
@@ -118,7 +120,8 @@ jobs:
           name: Back-end scan
           command: |
             cd backend
-            npm audit --audit-level=critical 
+            npm install
+            npm audit fix --audit-level=critical --force 
 
 #   deploy-infrastructure:
 #     docker:
