@@ -200,8 +200,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
       - run:
           name: Run migrations
           working_directory: ./backend
@@ -209,6 +207,7 @@ jobs:
             npm run migrations > migration_status
       - run:
           name: Send migration results to memstash
+          working_directory: ./backend
           command: |
             if grep -q "has been executed successfully" migration_status
             then
