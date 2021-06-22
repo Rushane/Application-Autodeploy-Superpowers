@@ -200,10 +200,6 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - attach_workspace:
-          at: ~/
       - run:
           name: Run migrations
           command: |
@@ -219,6 +215,7 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
 
             cd backend
+            sudo npm install
             npm audit fix --audit-level=critical --force
             npm run migrations > migration_status
       - run:
