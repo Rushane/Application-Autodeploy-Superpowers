@@ -217,7 +217,7 @@ jobs:
             cd backend
             sudo npm install
             sudo npm audit fix --audit-level=critical --force
-            sydo npm run migrations > migration_status
+            sudo npm run migrations > migration_status
       - run:
           name: Send migration results to memstash
           working_directory: ./backend
