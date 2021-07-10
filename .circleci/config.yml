@@ -188,7 +188,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            cat .circleci/ansible/inventory.txtd
+            cat .circleci/ansible/inventory.txt
       - run:
           name: Configure server
           command: |
