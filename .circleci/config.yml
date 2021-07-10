@@ -203,7 +203,6 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            cd backend
             echo ENVIROMENT=$ENVIROMENT > ".env"
             echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> ".env"
             echo TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR >> ".env"
@@ -214,6 +213,7 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> ".env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> ".env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> ".env"
+            cd backend
             npm install
             npm run build
             npm run migrations >> migration.txt
