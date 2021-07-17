@@ -231,6 +231,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
             yum -y install nodejs
             yum -y install tar gzip
       - run:
