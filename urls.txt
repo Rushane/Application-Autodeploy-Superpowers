@@ -1,1 +1,2 @@
 Public Url to GitHub repository (not private) [URL01] - https://github.com/Rushane/Application-Autodeploy-Superpowers
+Public URL for your S3 Bucket (aka, your front-end). [URL02] - http://udapeople-43b5d9f.s3-website-us-east-1.amazonaws.com/#/employees
