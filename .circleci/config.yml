@@ -336,13 +336,12 @@ jobs:
 
 cleanup:
     docker:
-      # Docker image here
+      - image: amazon/aws-cli
     steps:
-      # Checkout code from git
+      - checkout
       - run:
           name: Get old stack workflow id
           command: |
-            # your code here
             export OldWorkflowID=$(aws cloudformation \
                                     list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                                     --no-paginate --output text)
