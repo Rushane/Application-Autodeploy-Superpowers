@@ -1,5 +1,5 @@
 Public Url to GitHub repository (not private) [URL01] - https://github.com/Rushane/Application-Autodeploy-Superpowers
-Public URL for your S3 Bucket (aka, your front-end). [URL02] - http://udapeople-7ead4dc.s3-website-us-east-1.amazonaws.com 
-Public URL for your CloudFront distribution (aka, your production front-end). [URL03] - https://d3loea7khelw10.cloudfront.net/
-Public URL for your back-end server in EC2 [URL04] - http://ec2-35-174-205-240.compute-1.amazonaws.com:3030
-Evidence of Prometheus Server. [URL05] - http://ec2-54-90-2-106.compute-1.amazonaws.com:9090/graph
+Public URL for your S3 Bucket (aka, your front-end). [URL02] - http://udapeople-745861c.s3-website-us-east-1.amazonaws.com 
+Public URL for your CloudFront distribution (aka, your production front-end). [URL03] - https://d3un4b6s7gc35o.cloudfront.net
+Public URL for your back-end server in EC2 [URL04] - http://ec2-34-238-248-197.compute-1.amazonaws.com:3030
+Evidence of Prometheus Server. [URL05] - http://ec2-18-209-224-254.compute-1.amazonaws.com:9090/graph
