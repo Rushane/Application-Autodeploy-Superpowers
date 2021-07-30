@@ -192,9 +192,16 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk add --no-cache \
+                python3 \
+                py3-pip \
+            && pip3 install --upgrade pip \
+            && pip3 install \
+                awscli \
+            && rm -rf /var/cache/apk/*
             apk add --update ansible
             ansible-galaxy install weareinteractive.environment
-            cat .circleci/ansible/inventory.txt
+
       - run:
           name: Configure server
           command: |
@@ -301,8 +308,6 @@ jobs:
             ls -la
             ansible-galaxy install weareinteractive.environment
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /tmp/.circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
-            cd .circleci/ansible
-            ansible-playbook -i inventory.txt main.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}  
 
