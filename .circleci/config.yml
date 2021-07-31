@@ -180,12 +180,12 @@ jobs:
           command: |
              ip=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=udapeople" \
+              --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID} " \
               --output text) 
             
              echo "$ip" >> .circleci/ansible/inventory.txt
              cat .circleci/ansible/inventory.txt
-             curl -H "Content-Type: text/plain" -H "token: b2fbc26b-9c5d-46eb-a86c-65c8d7d0f18d" --request PUT --data "$ip" https://api.memstash.io/values/IP
+             curl -H "Content-Type: text/plain" -H "token: IP-${CIRCLE_WORKFLOW_ID:0:9}" --request PUT --data "$ip" https://api.memstash.io/values/IP
       - run:
           name: Dependencies
           command: |
