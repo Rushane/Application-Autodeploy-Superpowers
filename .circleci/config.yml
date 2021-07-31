@@ -180,7 +180,7 @@ jobs:
           command: |
              ip=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} " \
+              --filters "Name=tag:project,Values=udapeople-backend" \
               --output text) 
             
              echo "$ip" >> .circleci/ansible/inventory.txt
