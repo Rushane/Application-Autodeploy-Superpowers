@@ -1,7 +1,6 @@
 - name: "Configure Backend Server" 
   hosts: web
   user: ubuntu
-  gather_facts: false
   become: true
   vars:
     - ansible_python_interpreter: /usr/bin/python3
