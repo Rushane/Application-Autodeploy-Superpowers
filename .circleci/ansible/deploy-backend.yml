@@ -21,6 +21,7 @@
     TYPEORM_ENTITIES: "{{ lookup('env','TYPEORM_ENTITIES') }}"
   
   roles:
+    - configure-server
     - deploy
 
 
