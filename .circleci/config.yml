@@ -150,13 +150,13 @@ jobs:
               --template-file .circleci/files/backend.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople-backend 
+              --tags project=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} 
       - run:
           name: Save the new back-end url to memory
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=udapeople-backend" \
+              --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
             echo $BACKEND_IP
             curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" --request PUT --data "http://$BACKEND_IP:3030" https://api.memstash.io/values/BACKEND_URL
@@ -167,14 +167,14 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --tags project=udapeople-frontend
+              --tags project=udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
       - run:
           name: Add back-end ip to ansible inventory
           working_directory: ./.circleci/ansible
           command: |
             aws ec2 describe-instances \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                  --filters "Name=tag:project,Values=udapeople-backend" \
+                  --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                   --output text >> inventory
             cat inventory
       - persist_to_workspace:
@@ -197,13 +197,17 @@ jobs:
           name: Install dependencies
           working_directory: ./.circleci/ansible
           command: |
-            apk add --update tar gzip ansible curl
+            apk add --update ansible
+            ansible --version
             pip install awscli
       - run:
           name: Configure server
           working_directory: ./.circleci/ansible
           command: |
-            ansible-playbook -i inventory configure-server.yml
+            pwd &&
+            ls -la
+            cat inventory
+            ansible-playbook -i inventory configure-server.yaml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}      
 
@@ -271,26 +275,21 @@ jobs:
       - add_ssh_keys:
           fingerprints: [6a:e6:6e:69:cc:2d:87:cc:be:34:db:c1:d3:2a:f8:fe] 
       - attach_workspace:
-          at: ~/
+          at: .
       - run:
           name: Install dependencies
+          working_directory: /tmp
           command: |
-            apk add --update ansible openssh-client tar gzip 
+            apk add --update ansible curl rsync openssh nodejs npm
+            ansible --version
+            pip install awscli
+            aws --version
       - run:
           name: Deploy backend
+          working_directory: ./.circleci/ansible
           command: |
-            tar -C backend -czvf artifact.tar.gz .
-            ls -la
-      - run:
-          name: Deploy ansible playbook
-          no_output_timeout: 30m
-          command: |
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy.yml
-      - run:
-          name: Install AWS CLI
-          when: on_fail
-          command: |
-            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
+            cat inventory
+            ansible-playbook -i inventory deploy-backend.yaml -vv
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}  
 
