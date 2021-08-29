@@ -103,6 +103,20 @@ jobs:
           event: fail
           template: basic_fail_1
 
+  install-frontend-dependencies:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: npm install
+          working_directory: ./frontend
+          command: ls -la && npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/node_modules
+
   test-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -406,7 +420,10 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
+      - install-frontend-dependencies
+      - build-frontend:
+          requires:
+            - install-frontend-dependencies
       - install-backend-dependencies
       - build-backend:
           requires:
