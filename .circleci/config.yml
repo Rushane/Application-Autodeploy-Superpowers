@@ -55,6 +55,10 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/node_modules
       - slack/notify:
           channel: continuous-development-and-continuous-deployment
           event: fail
@@ -79,6 +83,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - backend/node_modules
             - backend/dist
       - slack/notify:
           channel: continuous-development-and-continuous-deployment
