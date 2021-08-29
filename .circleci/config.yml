@@ -63,6 +63,20 @@ jobs:
           channel: continuous-development-and-continuous-deployment
           event: fail
           template: basic_fail_1
+  
+  install-backend-dependencies:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: npm install
+          working_directory: ./backend
+          command: ls -la && npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - backend/node_modules
 
   build-backend:
     docker:
@@ -83,7 +97,6 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - backend/node_modules
             - backend/dist
       - slack/notify:
           channel: continuous-development-and-continuous-deployment
@@ -394,7 +407,10 @@ workflows:
   default:
     jobs:
       - build-frontend
+      - install-backend-dependencies
       - build-backend
+          requires:
+            - install-backend-dependencies
       - test-frontend:
           requires: [build-frontend]
       - test-backend:
