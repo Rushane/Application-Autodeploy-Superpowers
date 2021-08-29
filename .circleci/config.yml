@@ -169,17 +169,18 @@ jobs:
 
 
   scan-backend:
-    executor: node
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - checkout
-      - attach_workspace:
-          at: .
+      - restore_cache:
+          keys: [backend-build]
       - run:
-          name: Check Backend against security vulnerabilities
-          working_directory: ./backend
+          name: Back-end scan
           command: |
-              npm i
-              npm audit fix --audit-level=critical --force 
+            cd backend
+            npm i
+            npm audit fix --audit-level=critical --force 
 
 
 
