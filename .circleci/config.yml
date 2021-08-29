@@ -227,10 +227,10 @@ jobs:
             if grep -q "has been executed successfully" migration_status
             then
               echo "migration success"
-              curl -H "Content-Type: text/plain" -H "token: b2fbc26b-9c5d-46eb-a86c-65c8d7d0f18d" --request PUT --data "success" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
+              curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" --request PUT --data "success" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             else
               echo "migration failed"
-              curl -H "Content-Type: text/plain" -H "token: b2fbc26b-9c5d-46eb-a86c-65c8d7d0f18d" --request PUT --data "failure" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
+              curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" --request PUT --data "failure" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             fi
             echo "Workflow ID = ${CIRCLE_WORKFLOW_ID:0:7}"
      # Here's where you will add some code to rollback on failure      
@@ -251,7 +251,7 @@ jobs:
           working_directory: ./frontend
           command: |
             npm install
-            export API_URL=$(curl -H "token: b2fbc26b-9c5d-46eb-a86c-65c8d7d0f18d" --request GET https://api.memstash.io/values/BACKEND_URL)
+            export API_URL=$(curl -H "token: ${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/BACKEND_URL)
             echo "${API_URL}" >> ".env"
             echo "${API_URL}"
             npm run build
@@ -312,7 +312,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND_URL=$(curl -H "token: b2fbc26b-9c5d-46eb-a86c-65c8d7d0f18d" --request GET https://api.memstash.io/values/BACKEND_URL)
+            export BACKEND_URL=$(curl -H "token: ${CIRCLE_WORKFLOW_ID}" --request GET https://api.memstash.io/values/BACKEND_URL)
             echo "${BACKEND_URL}"
       - run:
           name: Backend smoke test.
