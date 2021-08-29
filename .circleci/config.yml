@@ -503,10 +503,10 @@ workflows:
       #           - master
       - deploy-backend:
           requires:
-            - run-migrations
+            - configure-infrastructure
       - deploy-frontend:
           requires:
-            - run-migrations
+            - configure-infrastructure
       - smoke-test:
           requires:
             - deploy-backend
