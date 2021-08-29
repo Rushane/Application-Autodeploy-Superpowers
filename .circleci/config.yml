@@ -271,22 +271,23 @@ jobs:
       - add_ssh_keys:
           fingerprints: [6a:e6:6e:69:cc:2d:87:cc:be:34:db:c1:d3:2a:f8:fe] 
       - attach_workspace:
-          at: .
+          at: ~/
       - run:
           name: Install dependencies
           command: |
-            cd /tmp
-            apk add --update ansible curl rsync openssh nodejs npm tar gzip
-            pip install awscli
+            apk add --update ansible openssh-client tar gzip 
       - run:
           name: Deploy backend
-          working_directory: ./.circleci/ansible
           command: |
-            ls -al && pwd
-            cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml -vv
+            tar -C backend -czvf artifact.tar.gz .
+            ls -la
       - run:
-          name: Install AWS CLI for rollback
+          name: Deploy ansible playbook
+          no_output_timeout: 30m
+          command: |
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy.yml
+      - run:
+          name: Install AWS CLI
           when: on_fail
           command: |
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
