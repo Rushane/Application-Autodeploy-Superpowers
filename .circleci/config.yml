@@ -1,34 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@Rushane 
-mAbdelFattah99
-/
-project3-automation-superpower
-1
-0
-1
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-project3-automation-superpower/.circleci/config.yml
-
-mahmoud new changes
-Latest commit d983130 on Apr 1
- History
- 1 contributor
-489 lines (466 sloc)  15.9 KB
-  
-
 version: 2.1
 
 orbs:
