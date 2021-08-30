@@ -255,7 +255,7 @@ jobs:
             echo ENVIROMENT=production >> "backend/.env"
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
             echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/.env"
-            echo TYPEORM_ENTITIES=./src/modules/domain/*/*/*.entity.ts >> "backend/.env"
+            echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
             echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> "backend/.env"
             echo TYPEORM_HOST=$TYPEORM_HOST >> "backend/.env"
             echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/.env"
@@ -402,9 +402,9 @@ jobs:
           command: |
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.us-east-1.amazonaws.com/index.html"
             curl -s ${URL} | grep -q "Welcome"
-      - destroy_environment:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
-          when: on_fail
+      # - destroy_environment:
+      #     id: ${CIRCLE_WORKFLOW_ID:0:7}
+      #     when: on_fail
       # - revert_migrations:
       #     id: ${CIRCLE_WORKFLOW_ID:0:7}
       #     when: on_fail
