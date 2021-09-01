@@ -95,9 +95,9 @@ jobs:
           paths:
             - backend/dist
       - slack/notify:
-        channel: continuous-development-and-continuous-deployment
-        event: fail
-        template: basic_fail_1
+          channel: continuous-development-and-continuous-deployment
+          event: fail
+          template: basic_fail_1
 
 
   build-frontend:
