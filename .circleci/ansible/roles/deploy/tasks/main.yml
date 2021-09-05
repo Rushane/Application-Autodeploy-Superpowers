@@ -24,10 +24,9 @@
   - name: "start server"
     become: true
     command: | 
-        cd /home/ubuntu/uda_app
         pm2 start npm --name "uda_app" -- run start
-    # args:
-    #   chdir: /home/ubuntu/uda_app/dist
+    args:
+      chdir: /home/ubuntu/uda_app
     environment:
      ENVIRONMENT: production
      TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
